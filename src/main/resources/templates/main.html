@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>메인 페이지</title>
+</head>
+<body>
+<h2>식당 추천 목록</h2>
+<ul>
+  <li th:each="r : ${restaurants}">
+    <strong th:text="${r.name}">이름</strong><br>
+    주소: <span th:text="${r.address}"></span><br>
+    전화번호: <span th:text="${r.phone}"></span><br><br>
+  </li>
+</ul>
+</body>
+</html>

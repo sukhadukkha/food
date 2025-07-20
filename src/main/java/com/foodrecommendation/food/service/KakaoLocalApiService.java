@@ -1,5 +1,7 @@
 package com.foodrecommendation.food.service;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import com.foodrecommendation.food.dto.RestaurantDto;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -7,6 +9,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.http.*;
 import org.json.*;
 
+import java.net.URLEncoder;
 import java.util.*;
 
 @Service
@@ -28,17 +31,18 @@ public class KakaoLocalApiService {
 
         JSONObject body = new JSONObject(response.getBody());
         JSONArray documents = body.getJSONArray("documents");
+        System.out.println("받아온 데이터 개수: " + documents.length());
 
         List<RestaurantDto> result = new ArrayList<>();
         for (int i = 0; i < documents.length(); i++) {
             JSONObject obj = documents.getJSONObject(i);
+
             result.add(new RestaurantDto(
                     obj.getString("place_name"),
                     obj.getString("address_name"),
                     obj.optString("phone", "없음")
             ));
         }
-
         return result;
     }
 }

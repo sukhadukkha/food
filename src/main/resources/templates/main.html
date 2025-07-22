@@ -1,16 +1,23 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="ko">
 <head>
-  <title>메인 페이지</title>
+  <meta charset="UTF-8">
+  <title>검색 및 추가 폼</title>
 </head>
 <body>
-<h2>식당 추천 목록</h2>
-<ul>
-  <li th:each="r : ${restaurants}">
-    <strong th:text="${r.name}">이름</strong><br>
-    주소: <span th:text="${r.address}"></span><br>
-    전화번호: <span th:text="${r.phone}"></span><br><br>
-  </li>
-</ul>
+
+<form action="/search" method="GET">
+  <input type="text" id="query" name="q" placeholder="검색어 입력">
+  <button type="submit">검색</button>
+</form>
+
+<!-- 추가 버튼 -->
+<button type="button" onclick="location.href='/add'">추가</button>
+
+<!-- 로그아웃 버튼 -->
+<form action="/logout" method="POST" style="display:inline;">
+  <button type="submit">로그아웃</button>
+</form>
+
 </body>
 </html>

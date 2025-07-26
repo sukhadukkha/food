@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>장소 상세 정보</title>
+</head>
+<body>
+<h1 th:text="${place.name}">장소 이름</h1>
+
+<p><strong>주소:</strong> <span th:text="${place.address}"></span></p>
+<p><strong>전화번호:</strong> <span th:text="${place.phone}"></span></p>
+<p><strong>키워드:</strong> <span th:text="${place.keywords}"></span></p>
+
+<!-- 수정 버튼 (GET 요청으로 수정 폼으로 이동) -->
+<a th:href="@{/place/edit/{id}(id=${place.id})}">
+    <button>수정</button>
+</a>
+
+<!-- 삭제 버튼 (POST 또는 DELETE 요청) -->
+<form th:action="@{/place/delete/{id}(id=${place.id})}" method="post" style="display:inline;">
+    <button type="submit" onclick="return confirm('정말 삭제하시겠습니까?');">삭제</button>
+</form>
+
+<br><br>
+<a href="/main">메인으로 돌아가기</a>
+</body>
+</html>

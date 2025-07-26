@@ -1,26 +1,32 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"> <!-- 꼭 필요함 -->
 <head>
     <meta charset="UTF-8" />
     <title>장소 추가</title>
 </head>
 <body>
 <h1>장소 추가</h1>
-<form action="/add" method="POST">
+
+<!-- 폼 시작: th:object로 Place 객체 바인딩 -->
+<form th:action="@{/add}" th:object="${place}" method="post">
     <label for="name">가게명:</label>
-    <input type="text" id="name" name="name" required><br>
+    <input type="text" id="name" th:field="*{name}" required><br>
 
     <label for="address">주소:</label>
-    <input type="text" id="address" name="address" required><br>
+    <input type="text" id="address" th:field="*{address}" required><br>
 
     <label for="phone">전화번호:</label>
-    <input type="text" id="phone" name="phone" required><br>
+    <input type="text" id="phone" th:field="*{phone}" required><br>
 
     <label for="keywords">키워드(예: 마포,맛집):</label>
-    <input type="text" id="keywords" name="keywords"><br>
+    <input type="text" id="keywords" th:field="*{keywords}"><br>
 
     <button type="submit">저장</button>
 </form>
-<button onclick="location.href='/main'">취소</button>
+
+<!-- 취소 버튼 -->
+<button th:onclick="|location.href='@{/main}'|">취소</button>
+
 </body>
 </html>

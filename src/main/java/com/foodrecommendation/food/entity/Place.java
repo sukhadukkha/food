@@ -28,4 +28,12 @@ public class Place {
         this.address = address;
         this.phone=phone;
     }
+
+    public void updateFrom(Place other) {
+        this.name = other.name;
+        this.address = other.address;
+        this.phone = other.phone;
+        this.keywords = other.keywords;
+    }
+
 }

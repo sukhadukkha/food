@@ -7,10 +7,8 @@
 <body>
 <h2>검색 결과</h2>
 <ul>
-    <li th:each="r : ${results}">
-        <strong th:text="${r.name}">이름</strong><br>
-        주소: <span th:text="${r.address}"></span><br>
-        전화번호: <span th:text="${r.phone}"></span><br><br>
+    <li th:each="place : ${results}">
+        <a th:href="@{/place/{id}(id=${place.id})}" th:text="${place.name}"></a>
     </li>
 </ul>
 </body>

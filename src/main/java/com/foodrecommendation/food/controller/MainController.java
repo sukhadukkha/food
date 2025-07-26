@@ -9,11 +9,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
-import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 @Controller
@@ -34,28 +31,21 @@ public class MainController {
 
 
     @GetMapping("/main")
-    public String showMain(Model model) {
+    public String showMain() {
         return "main";
     }
 
     // 폼 보여주기 (GET)
     @GetMapping("/add")
-    public String showAddForm() {
+    public String showAddForm(Model model) {
+        model.addAttribute("place", new Place());
         return "addForm"; // src/main/resources/templates/addForm.html (템플릿 엔진 쓰는 경우)
     }
 
     // 폼 제출 처리 (POST)
     @PostMapping("/add")
-    public String addPlace(@RequestParam String name,
-                           @RequestParam String address,
-                           @RequestParam String phone,
-                           @RequestParam(required = false) String keywords) {
-        Place place = new Place();
-        place.setName(name);
-        place.setAddress(address);
-        place.setPhone(phone);
-        place.setKeywords(keywords); // 키워드 저장
-        
+    public String addPlace(@ModelAttribute Place place) {
+
         placeRepository.save(place);
 
         return "redirect:main"; // 저장 후 메인 페이지 또는 검색 페이지로 이동
@@ -91,7 +81,41 @@ public class MainController {
         return "searchResult"; // 결과 보여줄 뷰 이름
     }
 
+    @GetMapping("/place/{id}")
+    public String showPlaceDetail(@PathVariable Long id, Model model) {
+        Place place = placeRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("해당 장소를 찾을 수 없습니다. id = " + id));
+
+        model.addAttribute("place", place);
+        return "placeDetail";
+    }
+
+    // 수정 폼 보여주기
+    @GetMapping("/place/edit/{id}")
+    public String showEditForm(@PathVariable Long id, Model model) {
+        Place place = placeRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("해당 장소를 찾을 수 없습니다. id = " + id));
+        model.addAttribute("place", place);
+        return "editForm";
+    }
+
+    @PostMapping("/place/edit/{id}")
+    public String updatePlace(@PathVariable Long id, @ModelAttribute Place updatePlace) {
+
+        log.info("updatePlaceName = {}", updatePlace.getName());
+        Place updatedPlace = placeService.updatePlace(id, updatePlace);
+        placeRepository.save(updatedPlace);
+        return "redirect:/place/" + id;
+    }
+
+    @PostMapping("/place/delete/{id}")
+    public String deletePlace(@PathVariable Long id) {
+        placeRepository.deleteById(id);
+        return "redirect:/main";
+    }
+
     private String extractKeywords(RestaurantDto dto, String searchQuery) {
+
         String address = dto.getAddress();
         String region = "";
         String district = "";

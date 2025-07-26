@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>장소 수정</title>
+</head>
+<body>
+<h1>장소 수정</h1>
+
+<form th:action="@{/place/edit/{id}(id=${place.id})}" th:object="${place}" method="post">
+  <label for="name">가게명:</label>
+  <input type="text" id="name" th:field="*{name}" required><br>
+
+  <label for="address">주소:</label>
+  <input type="text" id="address" th:field="*{address}" required><br>
+
+  <label for="phone">전화번호:</label>
+  <input type="text" id="phone" th:field="*{phone}" required><br>
+
+  <label for="keywords">키워드:</label>
+  <input type="text" id="keywords" th:field="*{keywords}"><br>
+
+  <button type="submit">저장</button>
+</form>
+
+<a th:href="@{/place/{id}(id=${place.id})}">취소</a>
+</body>
+</html>

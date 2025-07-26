@@ -32,4 +32,11 @@ public class PlaceService {
         return placeRepository.findByNameContainingOrKeywordsContaining(keyword, keyword);
     }
 
+    public Place updatePlace(Long id, Place updatePlace) {
+        Place place = placeRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("해당 장소 없음"));
+
+        place.updateFrom(updatePlace); // ← 도메인 메서드로 분리
+        return place;
+    }
 }
